@@ -1,12 +1,13 @@
-package com.example.notesapp.com.example.scribblespace
+package com.example.scribblespace
 
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.example.notesapp.DatabaseHandler
-import com.example.notesapp.Note
-import com.example.scribblespace.R
+import android.database.Cursor
+import android.database.sqlite.SQLiteDatabase
+import androidx.room.util.query
 
 class AddNoteActivity : AppCompatActivity() {
 
@@ -32,7 +33,10 @@ class AddNoteActivity : AppCompatActivity() {
             val content = noteContentEditText.text.toString()
 
             if (title.isNotEmpty() && content.isNotEmpty()) {
-                val note = Note(title = title, content = content)
+                val cursor:Cursor = SQLiteDatabase.query("note.db",null, null, null, null, null, null)
+
+
+                val note = Note(title = title, content = content, id = cursor.getLong(idIndex))
                 databaseHandler.addNote(note)
                 finish()
             }
